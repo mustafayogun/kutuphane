@@ -18,11 +18,11 @@ public class Test {
             case "1":
                 kitapKaydet();
                 break;
-                case "2":
-                    kitapVer();
+            case "2":
+                kitapVer();
                 break;
-                case "3":
-                    kitapAl();
+            case "3":
+                kitapAl();
                 break;
             default:
                 break;
@@ -88,15 +88,15 @@ public class Test {
             System.out.print("Raf Seç=");
             kitap.setRaf(rafList.get(Integer.parseInt(input.nextLine()) - 1));
             kitapDao.save(kitap);
-            System.out.println("Kitap Başarıyla Kaydedildi." + kitap);
+            System.out.println("Kitap Başarıyla Kaydedildi." + kitap.getKitapAdi());
         } catch (Exception e) {
             System.out.println(e);
         }
 
     }
 
-    public static void kitapVer(){
-        KitapDao kitapDao= new KitapDao();
+    public static void kitapVer() {
+        KitapDao kitapDao = new KitapDao();
         UyeDao uyeDao = new UyeDao();
         EmanetDao emanetDao = new EmanetDao();
         Scanner input = new Scanner(System.in);
@@ -111,24 +111,25 @@ public class Test {
             }
             System.out.println(kitapList);
             System.out.println("Kitap Seçiniz..");
-            emanet.setKitap(kitapListe.get(Integer.parseInt(input.nextLine())-1));
+            emanet.setKitap(kitapListe.get(Integer.parseInt(input.nextLine()) - 1));
             System.out.println("Üye No (id) Giriniz ..");
             String araUye = input.nextLine();
             try {
                 List<Uye> uyeListe = uyeDao.searchUye(Long.valueOf(araUye));
                 String uyeList = "";
                 for (int i = 0; i < uyeListe.size(); i++) {
-                    uyeList = uyeList + "\n" + (i + 1) + "- " + uyeListe.get(i).getAdi()+uyeListe.get(i).getSoyadi();
+                    uyeList = uyeList + "\n" + (i + 1) + "- " + uyeListe.get(i).getAdi() + uyeListe.get(i).getSoyadi();
                 }
-                System.out.println(uyeList+"--> Üye Seçiniz");
-                emanet.setUye(uyeListe.get(Integer.parseInt(input.nextLine())-1));
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+                System.out.println(uyeList + "--> Üye Seçiniz");
+                emanet.setUye(uyeListe.get(Integer.parseInt(input.nextLine()) - 1));
+                emanetDao.save(emanet);
+                System.out.println("Emanete Kitap Verildi... ");
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
 
-        emanetDao.save(emanet);
-            System.out.println("Emanete Kitap Verildi... ");
-    } catch (SQLException throwables) {
+
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
 
@@ -147,11 +148,13 @@ public class Test {
         String uyeKitapList = "";
         for (int i = 0; i < uyeKitapListe.size(); i++) {
             uyeKitapList = uyeKitapList + "\n" + (i + 1) + "- " + uyeKitapListe.get(i).getKitapAdi();
-            System.out.println(uyeKitapList + "--> Üyede Emanette olan kitaplar Teslim Alıncak Kitap Seç");
-            String silEmanet = input.nextLine();
-            emanetDao.kitapEmanetSil(Long.valueOf(silEmanet));
-            System.out.println("Kitap Başarıyla Geri Alındı..");
 
         }
+        System.out.println(uyeKitapList + "--> Üyede Emanette olan kitaplar Teslim Alıncak Kitap Seç");
+        String silEmanet = input.nextLine();
+        emanetDao.kitapEmanetSil(Long.valueOf(silEmanet));
+        System.out.println("Kitap Başarıyla Geri Alındı..");
+
+
     }
 }

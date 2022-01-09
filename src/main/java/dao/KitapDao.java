@@ -17,7 +17,7 @@ public  class KitapDao implements BaseDao<Kitap,Long> {
     static Connection con = DatabaseConnection.getInstance();
     @Override
     public Kitap save(Kitap kitap) throws SQLException {
-        String query= "insert into kitap (barkod,kitap_adi,basim_yili,sayfa_sayisi,kategori_id,yazar_id,basim_evi_id,kitap_id) " +
+        String query= "insert into kitap (barkod,kitap_adi,basim_yili,sayfa_sayisi,kategori_id,yazar_id,basim_evi_id,raf_id1) " +
                 "values (?,?,?,?,?,?,?,?)" ;
         PreparedStatement ps = con.prepareStatement(query);
         ps.setString(1,kitap.getBarkod());
